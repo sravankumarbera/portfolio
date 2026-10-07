@@ -4,6 +4,18 @@
  */
 
 import { useState } from 'react';
+import {
+  FileText,
+  Menu,
+  X,
+  ArrowUpRight,
+  Hourglass,
+  Mail,
+  Copy,
+  Check,
+  ExternalLink,
+  CheckCircle,
+} from 'lucide-react';
 import { PORTFOLIO_DATA } from './data/portfolio';
 import { ResumeModal } from './components/ResumeModal';
 
@@ -139,9 +151,7 @@ export default function App() {
               type="button"
               onClick={() => setResumeOpen(true)}
             >
-              <span aria-hidden="true" className="material-symbols-outlined text-base">
-                description
-              </span>
+              <FileText aria-hidden="true" className="w-4 h-4 shrink-0" />
               <span>Resume</span>
             </button>
             <a
@@ -163,9 +173,11 @@ export default function App() {
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <span className="material-symbols-outlined" data-icon={mobileMenuOpen ? 'close' : 'menu'}>
-                {mobileMenuOpen ? 'close' : 'menu'}
-              </span>
+              {mobileMenuOpen ? (
+                <X aria-hidden="true" className="w-6 h-6" />
+              ) : (
+                <Menu aria-hidden="true" className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -227,9 +239,7 @@ export default function App() {
               setResumeOpen(true);
             }}
           >
-            <span aria-hidden="true" className="material-symbols-outlined text-base">
-              description
-            </span>
+            <FileText aria-hidden="true" className="w-4 h-4 shrink-0" />
             <span>Resume (View &amp; Download)</span>
           </button>
           <div className="pt-2">
@@ -270,9 +280,7 @@ export default function App() {
                 type="button"
                 onClick={() => setResumeOpen(true)}
               >
-                <span aria-hidden="true" className="material-symbols-outlined text-base">
-                  description
-                </span>
+                <FileText aria-hidden="true" className="w-4 h-4 shrink-0" />
                 <span>Resume</span>
               </button>
               <a
@@ -293,9 +301,7 @@ export default function App() {
                 target="_blank"
               >
                 <span>GitHub</span>
-                <span aria-hidden="true" className="material-symbols-outlined text-sm">
-                  north_east
-                </span>
+                <ArrowUpRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </a>
               <span className="text-outline-variant">·</span>
               <a
@@ -305,9 +311,7 @@ export default function App() {
                 target="_blank"
               >
                 <span>LinkedIn</span>
-                <span aria-hidden="true" className="material-symbols-outlined text-sm">
-                  north_east
-                </span>
+                <ArrowUpRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </a>
               <span className="text-outline-variant">·</span>
               <a
@@ -317,9 +321,7 @@ export default function App() {
                 target="_blank"
               >
                 <span>LeetCode</span>
-                <span aria-hidden="true" className="material-symbols-outlined text-sm">
-                  north_east
-                </span>
+                <ArrowUpRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </a>
             </div>
           </div>
@@ -362,9 +364,7 @@ export default function App() {
                   type="button"
                   onClick={() => setResumeOpen(true)}
                 >
-                  <span aria-hidden="true" className="material-symbols-outlined text-base">
-                    description
-                  </span>
+                  <FileText aria-hidden="true" className="w-4 h-4 shrink-0" />
                   <span>View and Download Full Resume</span>
                 </button>
               </div>
@@ -467,9 +467,7 @@ export default function App() {
             <div className="md:col-span-8">
               <div className="p-6 rounded border border-outline-variant/70 bg-surface-container-low">
                 <div className="flex items-center gap-2 text-label-sm font-label-sm text-primary mb-2">
-                  <span aria-hidden="true" className="material-symbols-outlined text-base">
-                    hourglass_empty
-                  </span>
+                  <Hourglass aria-hidden="true" className="w-4 h-4 shrink-0" />
                   <span>In Progress</span>
                 </div>
                 <p className="text-body-md font-body-md text-on-surface-variant leading-relaxed">
@@ -580,9 +578,11 @@ export default function App() {
                     type="button"
                     onClick={handleCopyEmail}
                   >
-                    <span aria-hidden="true" className="material-symbols-outlined text-sm">
-                      {copyState === 'copied' ? 'check' : 'content_copy'}
-                    </span>
+                    {copyState === 'copied' ? (
+                      <Check aria-hidden="true" className="w-4 h-4 shrink-0 text-primary" />
+                    ) : (
+                      <Copy aria-hidden="true" className="w-4 h-4 shrink-0" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -598,9 +598,7 @@ export default function App() {
                     target="_blank"
                   >
                     <span>LinkedIn</span>
-                    <span aria-hidden="true" className="material-symbols-outlined text-xs">
-                      north_east
-                    </span>
+                    <ArrowUpRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   </a>
                   <span className="text-outline-variant">·</span>
                   <a
@@ -610,9 +608,7 @@ export default function App() {
                     target="_blank"
                   >
                     <span>GitHub</span>
-                    <span aria-hidden="true" className="material-symbols-outlined text-xs">
-                      north_east
-                    </span>
+                    <ArrowUpRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   </a>
                   <span className="text-outline-variant">·</span>
                   <a
@@ -622,9 +618,7 @@ export default function App() {
                     target="_blank"
                   >
                     <span>LeetCode</span>
-                    <span aria-hidden="true" className="material-symbols-outlined text-xs">
-                      north_east
-                    </span>
+                    <ArrowUpRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   </a>
                 </div>
               </div>
@@ -639,9 +633,7 @@ export default function App() {
                   target="_top"
                   onClick={handleSendEmail}
                 >
-                  <span aria-hidden="true" className="material-symbols-outlined text-base">
-                    mail
-                  </span>
+                  <Mail aria-hidden="true" className="w-4 h-4 shrink-0" />
                   <span>Send me an email</span>
                 </a>
 
@@ -651,9 +643,11 @@ export default function App() {
                   type="button"
                   onClick={handleCopyEmail}
                 >
-                  <span aria-hidden="true" className="material-symbols-outlined text-base">
-                    {copyState === 'copied' ? 'check' : 'content_copy'}
-                  </span>
+                  {copyState === 'copied' ? (
+                    <Check aria-hidden="true" className="w-4 h-4 shrink-0 text-primary" />
+                  ) : (
+                    <Copy aria-hidden="true" className="w-4 h-4 shrink-0" />
+                  )}
                   <span>{copyState === 'copied' ? 'Copied' : 'Copy Email'}</span>
                 </button>
 
@@ -666,18 +660,14 @@ export default function App() {
                   target="_blank"
                   title="Open directly in Gmail Web"
                 >
-                  <span aria-hidden="true" className="material-symbols-outlined text-base">
-                    open_in_new
-                  </span>
+                  <ExternalLink aria-hidden="true" className="w-4 h-4 shrink-0" />
                   <span>Open in Gmail</span>
                 </a>
               </div>
 
               {statusMessage && (
                 <div className="text-body-sm font-body-sm text-primary flex items-center gap-1.5 pt-1">
-                  <span aria-hidden="true" className="material-symbols-outlined text-sm">
-                    check_circle
-                  </span>
+                  <CheckCircle aria-hidden="true" className="w-4 h-4 shrink-0" />
                   <span>{statusMessage}</span>
                 </div>
               )}

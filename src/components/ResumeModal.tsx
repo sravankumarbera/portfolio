@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useRef } from 'react';
+import { FileText, Download, X } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolio';
 
 interface ResumeModalProps {
@@ -58,9 +59,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         {/* Modal Top Bar */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-outline-variant bg-surface shrink-0">
           <div className="flex items-center gap-2">
-            <span aria-hidden="true" className="material-symbols-outlined text-primary text-xl">
-              description
-            </span>
+            <FileText aria-hidden="true" className="w-5 h-5 text-primary shrink-0" />
             <span className="font-label-md text-label-md font-semibold text-on-surface">
               BERA SRAVAN KUMAR — RESUME
             </span>
@@ -73,9 +72,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               type="button"
               onClick={handlePrint}
             >
-              <span aria-hidden="true" className="material-symbols-outlined text-base">
-                download
-              </span>
+              <Download aria-hidden="true" className="w-4 h-4 shrink-0" />
               <span>Download PDF</span>
             </button>
 
@@ -85,9 +82,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               type="button"
               onClick={onClose}
             >
-              <span aria-hidden="true" className="material-symbols-outlined text-xl">
-                close
-              </span>
+              <X aria-hidden="true" className="w-5 h-5" />
             </button>
           </div>
         </div>
