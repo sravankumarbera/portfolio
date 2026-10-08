@@ -159,31 +159,80 @@ body {
 }
 
 @media print {
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
+  @page {
+    size: A4 portrait;
+    margin: 8mm 12mm;
   }
-  body * {
-    visibility: hidden;
-  }
+
+  /* Completely remove the non-resume elements from layout so they occupy 0 pages */
+  header,
+  main,
+  footer,
   .no-print {
     display: none !important;
   }
-  #resume-document, #resume-document * {
-    visibility: visible;
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
   }
+
+  /* Reset modal overlay for clean 1-page print */
+  .resume-modal-overlay {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .resume-modal-container {
+    position: static !important;
+    display: block !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .resume-scroll-area {
+    padding: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
   #resume-document {
-    position: absolute;
-    left: 0;
-    top: 0;
+    display: block !important;
+    position: static !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding: 15mm 20mm !important;
+    padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
     background: #ffffff !important;
-    color: #000000 !important;
+    color: #1a1a1a !important;
+    page-break-after: avoid;
+    break-after: avoid;
   }
 }
+
 

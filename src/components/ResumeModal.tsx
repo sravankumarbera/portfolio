@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useRef } from 'react';
-import { FileText, Download, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { FileText, Download, Printer, X, Loader2 } from 'lucide-react';
+import html2pdf from 'html2pdf.js';
 import { PORTFOLIO_DATA } from '../data/portfolio';
 
 interface ResumeModalProps {
@@ -14,6 +15,7 @@ interface ResumeModalProps {
 
 export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -37,6 +39,38 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
 
   if (!isOpen) return null;
 
+  const handleDownloadPdf = async () => {
+    const element = document.getElementById('resume-document');
+    if (!element) return;
+
+    setIsDownloading(true);
+    try {
+      const opt = {
+        margin: [8, 8, 8, 8] as [number, number, number, number],
+        filename: 'Bera_Sravan_Kumar_Resume.pdf',
+        image: { type: 'jpeg' as const, quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff',
+        },
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait' as const,
+        },
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (err) {
+      console.error('Direct PDF download failed, falling back to print dialog:', err);
+      window.print();
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -44,7 +78,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
   return (
     <div
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-inverse-surface/60 backdrop-blur-xs no-print overflow-y-auto"
+      className="resume-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-inverse-surface/60 backdrop-blur-xs overflow-y-auto"
       role="dialog"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -54,10 +88,10 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     >
       <div
         ref={modalRef}
-        className="w-full max-w-3xl max-h-[94vh] flex flex-col bg-surface-container-lowest rounded-lg border border-outline-variant shadow-2xl overflow-hidden animate-fadeIn my-auto"
+        className="resume-modal-container w-full max-w-3xl max-h-[94vh] flex flex-col bg-surface-container-lowest rounded-lg border border-outline-variant shadow-2xl overflow-hidden animate-fadeIn my-auto"
       >
         {/* Modal Top Bar */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-outline-variant bg-surface shrink-0">
+        <div className="no-print flex items-center justify-between px-5 py-3 border-b border-outline-variant bg-surface shrink-0">
           <div className="flex items-center gap-2">
             <FileText aria-hidden="true" className="w-5 h-5 text-primary shrink-0" />
             <span className="font-label-md text-label-md font-semibold text-on-surface">
@@ -67,13 +101,33 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
 
           <div className="flex items-center gap-2">
             <button
-              className="px-3.5 py-1.5 rounded bg-primary-container text-on-primary text-body-sm font-body-sm font-medium inline-flex items-center gap-1.5 hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors"
-              title="Download or Print as PDF"
+              className="px-3.5 py-1.5 rounded bg-primary-container text-on-primary text-body-sm font-body-sm font-medium inline-flex items-center gap-1.5 hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors disabled:opacity-75"
+              disabled={isDownloading}
+              title="Download PDF directly to your device"
+              type="button"
+              onClick={handleDownloadPdf}
+            >
+              {isDownloading ? (
+                <>
+                  <Loader2 aria-hidden="true" className="w-4 h-4 shrink-0 animate-spin" />
+                  <span>Downloading...</span>
+                </>
+              ) : (
+                <>
+                  <Download aria-hidden="true" className="w-4 h-4 shrink-0" />
+                  <span>Download PDF</span>
+                </>
+              )}
+            </button>
+
+            <button
+              className="hidden sm:inline-flex px-3 py-1.5 rounded bg-surface-container-lowest border border-outline-variant text-on-surface text-body-sm font-body-sm font-medium items-center gap-1.5 hover:bg-surface-container-low focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors"
+              title="Print or save as PDF"
               type="button"
               onClick={handlePrint}
             >
-              <Download aria-hidden="true" className="w-4 h-4 shrink-0" />
-              <span>Download PDF</span>
+              <Printer aria-hidden="true" className="w-4 h-4 shrink-0" />
+              <span>Print</span>
             </button>
 
             <button
@@ -88,7 +142,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         </div>
 
         {/* Modal Scrollable Resume Content */}
-        <div className="overflow-y-auto p-3 sm:p-6 md:p-8 bg-surface-container-low/50">
+        <div className="resume-scroll-area overflow-y-auto p-3 sm:p-6 md:p-8 bg-surface-container-low/50">
           {/* Printable Document Sheet matching the exact resume */}
           <div
             id="resume-document"
@@ -311,8 +365,8 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         </div>
 
         {/* Modal Footer Note */}
-        <div className="px-5 py-3 border-t border-outline-variant bg-surface flex flex-col sm:flex-row justify-between items-center gap-2 text-label-sm font-label-sm text-on-surface-variant shrink-0">
-          <span>Click "Download PDF" to save or print this official single-page resume.</span>
+        <div className="no-print px-5 py-3 border-t border-outline-variant bg-surface flex flex-col sm:flex-row justify-between items-center gap-2 text-label-sm font-label-sm text-on-surface-variant shrink-0">
+          <span>Tip: "Download PDF" saves the resume file directly to your downloads.</span>
           <button
             className="hover:text-primary underline font-medium"
             type="button"
